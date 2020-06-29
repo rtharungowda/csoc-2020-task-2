@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'authentication',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -123,7 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles/')
 LOGIN_REDIRECT_URL='/'
-LOGOUT_REDIRECT_URL = '/'
+#LOGOUT_REDIRECT_URL = '/'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

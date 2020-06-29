@@ -18,6 +18,7 @@
         <th scope="col">Author</th>
         <th scope="col">Genre</th>
         <th scope="col">Borrow Date</th>
+        <th scope="col">Rate this book</th>
         <th scope="col">Return Buttons</th>
         </tr>
     </thead>
@@ -29,7 +30,12 @@
         <td>{{ copy.book.author }}</td>
         <td>{{ copy.book.genre }}</td>
         <td>{{ copy.borrow_date }}</td>
-        <td><button class="btn btn-primary" onclick="returnBook({{ copy.id }})">Return {{ copy.book.title }}</button></td>
+        <form action="/books/{{copy.book.id}}/rating/" method="post">
+            {% csrf_token %}
+            <td><input type="text" name="rating" id="rating" ><!--value="b/w 1 and 10"--> 
+            <input type="submit" value="OK"></td>
+        </form>
+        <td><button class="btn btn-primary" onclick="returnBook({{copy.id}})">Return {{ copy.book.title }}</button></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -37,7 +43,26 @@
 <script>
 // Fill in this function by yourself. It should make a post call to the returnBookView and display an appropriate message
 function returnBook(bid){
-    ;
+    $.ajax({
+        url: "{% url 'return-book' %}",
+        method: "POST",
+        data: {
+            bid: bid,
+        },
+        success: function(data, status, xhr){
+            if(data['message'] == "success"){
+                alert("Book successfully retuned");
+                window.location.replace("/books/loaned");
+            }
+            else{
+                alert("Unable to return this book.Try again");
+            }
+        },
+        error: function(xhr, status, err){
+            alert("Some error occured");
+        }
+
+    })
 }
 </script>
 {% endblock %}

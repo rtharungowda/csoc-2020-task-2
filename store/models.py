@@ -9,12 +9,13 @@ class Book(models.Model):
     description = models.TextField(null=True)
     mrp = models.PositiveIntegerField()
     rating = models.FloatField(default=0.0)
-
+    
     class Meta:
-        ordering = ('title',)
+        ordering = ['title']
 
-    def __str__(self):
+    def __str__(self):  
         return f'{self.title} by {self.author}'
+
 
 
 class BookCopy(models.Model):
@@ -30,3 +31,8 @@ class BookCopy(models.Model):
         else:
             return f'{self.book.title} - Available'
 
+class BookRating(models.Model):
+    
+    book =models.ForeignKey(Book,on_delete=models.CASCADE)
+    ratings= models.FloatField(default=0.0)
+    user= models.ForeignKey(User,null=True,blank=True,on_delete=models.SET_NULL)
